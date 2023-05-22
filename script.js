@@ -32,6 +32,7 @@ const categories = [
     "cringe"
 ];
 
+
 const categoryDropdown = document.getElementById('category');
 
 categories.forEach(category => {
