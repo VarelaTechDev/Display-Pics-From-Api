@@ -24,13 +24,12 @@ select, button {
 
 #imageDisplay {
     margin-top: 20px;
-    width: 100%;
-    max-height: 500px; /* Or any height you prefer */
-    overflow-y: auto; /* Makes the div scrollable if the content overflows the set height */
 }
 
 img {
-    width: 100%;
-    height: auto;
-    /* rest of your styles */
+    width: 500px; /* Set a larger width for all images */
+    height: 500px; /* Set a larger height for all images */
+    object-fit: contain;
+    border-radius: 10px;
+    box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05);
 }

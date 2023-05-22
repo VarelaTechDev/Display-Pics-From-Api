@@ -68,8 +68,23 @@ document.getElementById('submitButton').addEventListener('click', function() {
         })
         .then(response => response.json())
         .then(data => {
-            clearInterval(loadingInterval);
-            imageDisplay.innerHTML = `<img src="${data.url}" alt="Waifu Image">`;
+            const image = new Image();
+            image.onload = function() {
+                clearInterval(loadingInterval);
+                imageDisplay.innerHTML = '';
+                imageDisplay.appendChild(image);
+            };
+            image.onerror = function() {
+                clearInterval(loadingInterval);
+                console.error('Error: Failed to load the image.');
+                imageDisplay.textContent = 'Failed to load the image.';
+            };
+            image.src = data.url;
+            image.alt = '';
+            image.style.maxWidth = '100%';
+            image.style.maxHeight = '100%';
+            image.style.borderRadius = '10px';
+            image.style.boxShadow = '0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)';
         })
         .catch(error => {
             clearInterval(loadingInterval);
