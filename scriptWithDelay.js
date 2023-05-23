@@ -19,20 +19,30 @@ document.getElementById('submitButton').addEventListener('click', function() {
         loadingMessageElement.style.display = 'block';  // Show the loading message on subsequent requests
     }
 
-    fetch(`https://api.waifu.pics/${sfwToggle}/${category}`)
-        .then(response => response.json())
-        .then(data => {
-            img.src = data.url;
-            img.onclick = function() {
-                addToFavorites(img.src);
-            }
-            loadingMessageElement.innerText = '';  // Clear the loading message
-        })
-        .catch(err => {
-            console.error(err);
-            img.alt = 'Error loading image';
-            loadingMessageElement.innerText = 'Error loading image';  // Update the loading message with the error message
-        });
+    let loadingInterval = setInterval(() => {
+        loadingMessage += '.';
+        loadingMessageElement.innerText = loadingMessage;
+    }, 500);  // Adds a dot every half a second
+
+    // Delay before making the fetch request
+    setTimeout(() => {
+        fetch(`https://api.waifu.pics/${sfwToggle}/${category}`)
+            .then(response => response.json())
+            .then(data => {
+                clearInterval(loadingInterval);  // Stop the loading message
+                img.src = data.url;
+                img.onclick = function() {
+                    addToFavorites(img.src);
+                }
+                loadingMessageElement.innerText = '';  // Clear the loading message
+            })
+            .catch(err => {
+                clearInterval(loadingInterval);  // Stop the loading message
+                console.error(err);
+                img.alt = 'Error loading image';
+                loadingMessageElement.innerText = 'Error loading image';  // Update the loading message with the error message
+            });
+    }, 2000);  // 2 seconds delay
 });
 
 function addToFavorites(src) {

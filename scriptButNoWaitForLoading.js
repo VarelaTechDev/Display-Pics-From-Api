@@ -22,11 +22,13 @@ document.getElementById('submitButton').addEventListener('click', function() {
     fetch(`https://api.waifu.pics/${sfwToggle}/${category}`)
         .then(response => response.json())
         .then(data => {
+            img.onload = function() { // SLOW!!!
+                loadingMessageElement.innerText = '';  // Clear the loading message after the image loads
+            };
             img.src = data.url;
             img.onclick = function() {
                 addToFavorites(img.src);
             }
-            loadingMessageElement.innerText = '';  // Clear the loading message
         })
         .catch(err => {
             console.error(err);
